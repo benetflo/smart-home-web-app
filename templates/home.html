@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Benjis sida</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: sans-serif;
+      background: #eef6ff;
+    }
+
+    .container {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .box {
+      width: 250px;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .weather-box { background: linear-gradient(to bottom right, #87cefa, #f0f8ff); }
+    .other-box   { background: linear-gradient(to bottom right, #ffe6a7, #fff5db); }
+    .red-box     { background: linear-gradient(to bottom right, #ffb3b3, #ffeaea); }
+    .green-box   { background: linear-gradient(to bottom right, #b3ffcc, #eafff2); }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="column">
+      <div class="box weather-box">
+        <h2>Haninge</h2>
+        <p>{{ weather_description|capitalize}}</p>
+        <p>🌡 {{ temp }} °C</p>
+	<p>Känns som: {{ feels_like_temp }} °C</p>
+	<p>Lufttryck: {{ air_pressure }} hPa</p>
+	<p>Luftfuktighet: {{ humidity }} %</p>
+	<p>Synlighet: {{ visibility }} m</p>
+	<p>Vindhastighet: {{ wind_speed }} m/s</p>
+	<p>Vindbyar: {{ wind_gust }} m/s</p>
+      </div>
+      <div class="box weather-box">
+        <h2>Lägenheten</h2>
+        <p>🌡  °C</p>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="box other-box">
+        <h2>Inomhus</h2>
+        <p>Temp: {{ indoor_temp }} °C</p>
+      </div>
+      <div class="box other-box">
+        <h2>Statistik</h2>
+        <p>Max i maj: 23.5 °C</p>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="box red-box">
+        <h2>Varningar</h2>
+        <p>Hög UV: 7</p>
+      </div>
+      <div class="box red-box">
+        <h2>Larm</h2>
+        <p>Brandvarnare OK</p>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="box green-box">
+        <h2>Energianvändning</h2>
+        <p>El idag: 8.2 kWh</p>
+      </div>
+      <div class="box green-box">
+        <h2>Luftkvalitet</h2>
+        <p>PM2.5: 12 µg/m³</p>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+import requests
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+API_KEY = os.getenv('OPENWEATHER_API_KEY')
+
+def get_weather_info(city):
+
+	if city:
+		url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric&lang=sv'
+		response = requests.get(url)
+		if response.status_code == 200:
+			weather_data = response.json()
+		else:
+			weather_data = {"error": "Could not get weather data"}
+	return weather_data
+
+def parse_weather_data(city):
+
+	data = get_weather_info(city)
+
+	if data:
+		temp = data['main']['temp']
+		feels_like_temp = data['main']['feels_like']
+		air_pressure = data['main']['pressure']
+		humidity = data['main']['humidity']
+		visibility = data.get('visibility') # in meters
+		wind_speed = data['wind']['speed'] # overall speed
+		wind_gust = data['wind'].get('gust') # temporary peaks
+		weather_description = data['weather'][0]['description']
+
+		return temp, feels_like_temp, air_pressure, humidity, visibility, wind_speed, wind_gust, weather_description
+
+	else:
+		return None
