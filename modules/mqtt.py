@@ -1,6 +1,8 @@
 import paho.mqtt.client as paho
 import os
 from dotenv import load_dotenv
+import queue
+
 
 load_dotenv()
 
@@ -28,9 +30,11 @@ def connect_to_mqtt_broker():
 		print(f"Error occurred while trying to connect to MQTT: {e}")
 		return 1
 
+msg_queue = queue.Queue()
+
 def on_message(client, userdata, message):
-	print("on_message callback triggered!")
-	print(f"Message received on topic {message.topic}: {message.payload.decode()}")
+	msg = message.payload.decode()
+	msg_queue.put(msg)
 
 def sub_to_topic(topic):
 	global mqtt_client

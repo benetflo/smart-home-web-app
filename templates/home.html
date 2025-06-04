@@ -54,7 +54,7 @@
       </div>
       <div class="box weather-box">
         <h2>Lägenheten</h2>
-        <p>🌡  °C</p>
+        <p>🌡 <span id="temp-sensor">{{ temp_sensor_value }}</span>°C</p>
       </div>
     </div>
 
@@ -92,6 +92,20 @@
     </div>
 
   </div>
+
+<script>
+  async function fetchSensorValue() {
+    try {
+      const response = await fetch("/api/temp_sensor");
+      const data = await response.json();
+      document.getElementById("temp-sensor").innerText = data.temp_sensor_value;
+    } catch (error) {
+      console.error("Kunde inte hämta sensorvärde:", error);
+    }
+  }
+
+  setInterval(fetchSensorValue, 5000);
+</script>
 
 </body>
 </html>
