@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Benjis sida</title>
+  <link href="https://fonts.googleapis.com/css2?family=Coiny&family=Patrick+Hand&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       padding: 20px;
-      font-family: sans-serif;
-      background: #eef6ff;
+      font-family: 'Patrick Hand', sans-serif;
+      background: #121212;
+      font-size: 18px;
     }
 
     .container {
@@ -30,10 +32,16 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
-    .weather-box { background: linear-gradient(to bottom right, #87cefa, #f0f8ff); }
-    .other-box   { background: linear-gradient(to bottom right, #ffe6a7, #fff5db); }
-    .red-box     { background: linear-gradient(to bottom right, #ffb3b3, #ffeaea); }
-    .green-box   { background: linear-gradient(to bottom right, #b3ffcc, #eafff2); }
+    .patrick-hand-regular {
+      font-family: "Patrick Hand", cursive;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .weather-box { background: linear-gradient(to bottom right, #FF8C00, #FFD580); }
+    .other-box   { background: linear-gradient(to bottom right, #FF9900, #FFE699); }
+    .red-box     { background: linear-gradient(to bottom right, #FFB300, #FFF2CC); }
+    .green-box   { background: linear-gradient(to bottom right, #FFA500, #FFF8E1); }
   </style>
 </head>
 <body>
@@ -55,39 +63,41 @@
       <div class="box weather-box">
         <h2>Lägenheten</h2>
         <p>🌡 <span id="temp-sensor">{{ temp_sensor_value }}</span>°C</p>
+	<p>Luftfuktighet:</p>
       </div>
     </div>
 
     <div class="column">
       <div class="box other-box">
-        <h2>Inomhus</h2>
-        <p>Temp: {{ indoor_temp }} °C</p>
+        <h2>Tid</h2>
+	<p id="current-date"></p>
+        <p id="current-time"></p>
       </div>
       <div class="box other-box">
-        <h2>Statistik</h2>
-        <p>Max i maj: 23.5 °C</p>
+        <h2></h2>
+        <p></p>
       </div>
     </div>
 
     <div class="column">
       <div class="box red-box">
-        <h2>Varningar</h2>
-        <p>Hög UV: 7</p>
+        <h2></h2>
+        <p></p>
       </div>
       <div class="box red-box">
-        <h2>Larm</h2>
-        <p>Brandvarnare OK</p>
+        <h2></h2>
+        <p></p>
       </div>
     </div>
 
     <div class="column">
       <div class="box green-box">
-        <h2>Energianvändning</h2>
-        <p>El idag: 8.2 kWh</p>
+        <h2></h2>
+        <p></p>
       </div>
       <div class="box green-box">
-        <h2>Luftkvalitet</h2>
-        <p>PM2.5: 12 µg/m³</p>
+        <h2></h2>
+        <p></p>
       </div>
     </div>
 
@@ -104,7 +114,19 @@
     }
   }
 
+  function updateLocalTime() {
+    const now = new Date();
+    const dateStr = now.toLocaleDateString("sv-SE");
+    const timeStr = now.toLocaleTimeString("sv-SE", { hour12: false });
+    document.getElementById("current-date").innerText = dateStr;
+    document.getElementById("current-time").innerText = timeStr;
+  }
+
+
+  setInterval(updateLocalTime, 1000);
   setInterval(fetchSensorValue, 5000);
+
+  
 </script>
 
 </body>

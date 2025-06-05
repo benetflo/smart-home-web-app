@@ -1,12 +1,10 @@
-from flask import Flask, jsonify
-from flask import render_template
+from flask import Flask, jsonify, make_response, render_template
 from services.api import parse_weather_data
 from modules.mqtt import connect_to_mqtt_broker, sub_to_topic, msg_queue
 
 import threading
-import time
 import os
-
+import time
 
 app = Flask(__name__)
 
@@ -31,6 +29,7 @@ def temp_sensor_api():
 
 	return jsonify(temp_sensor_value=temp_sensor_value or "N/A")
 
+# TODO: make route for weather api
 
 @app.route("/home")
 def home():
