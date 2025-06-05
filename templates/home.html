@@ -73,9 +73,9 @@
 	<p id="current-date"></p>
         <p id="current-time"></p>
       </div>
-      <div class="box other-box">
-        <h2></h2>
-        <p></p>
+      <div class="box other-box" id="news-box">
+        <h2>Senaste Nyheter</h2>
+        <div id="news-list"></div>
       </div>
     </div>
 
@@ -123,8 +123,32 @@
   }
 
 
+  async function fetchNewsArticles() {
+    try {
+      const response = await fetch("/api/update_news");
+      const data = await response.json();
+      const container = document.getElementById("news-list");
+      container.innerHTML = "";
+
+      data.forEach(article => {
+        const articleElem = document.createElement("div");
+
+        const link = document.createElement("a");
+        link.href = article.url;
+        link.textContent = article.title;
+        link.target = "_blank";
+
+        articleElem.appendChild(link);
+        container.appendChild(articleElem);
+      });
+   } catch (error) {
+     console.error("Could not fetch news:", error);
+     }      
+  }
+  setInterval(fetchNewsArticles, (28.8 * 60 * 1000));
   setInterval(updateLocalTime, 1000);
   setInterval(fetchSensorValue, 5000);
+  fetchNewsArticles();
 
   
 </script>

@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, make_response, render_template
-from services.api import parse_weather_data
+from services.api import parse_weather_data, get_news_info
 from modules.mqtt import connect_to_mqtt_broker, sub_to_topic, msg_queue
 
 import threading
@@ -13,6 +13,7 @@ cached_weather = None
 last_fetch_time = 0
 CACHE_DURATION  = 30 * 60
 temp_sensor_value = None
+articles_title_and_url = []
 
 @app.route("/")
 def login():
@@ -30,6 +31,14 @@ def temp_sensor_api():
 	return jsonify(temp_sensor_value=temp_sensor_value or "N/A")
 
 # TODO: make route for weather api
+
+@app.route("/api/update_news")
+def update_news_api():
+	global articles_title_and_url
+
+	articles_title_and_url = get_news_info()
+	return articles_title_and_url
+
 
 @app.route("/home")
 def home():
@@ -50,7 +59,7 @@ def home():
 
 	temp, feels_like_temp, air_pressure, humidity, visibility, wind_speed, wind_gust, weather_description = cached_weather
 
-	return render_template("home.html", temp=temp, feels_like_temp=feels_like_temp, air_pressure=air_pressure, humidity=humidity, visibility=visibility, wind_speed=wind_speed, wind_gust=wind_gust, weather_description=weather_description, temp_sensor_value=temp_sensor_value)
+	return render_template("home.html", temp=temp, feels_like_temp=feels_like_temp, air_pressure=air_pressure, humidity=humidity, visibility=visibility, wind_speed=wind_speed, wind_gust=wind_gust, weather_description=weather_description, temp_sensor_value=temp_sensor_value, articles_title_and_url=articles_title_and_url)
 
 
 
